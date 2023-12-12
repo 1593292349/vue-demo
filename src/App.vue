@@ -1,27 +1,26 @@
 <template>
 	<div>
-		首页{{count}}
-		<button @click="start">开始</button>
+		{{createVue()}}
 	</div>
 </template>
 
 <script setup lang="ts">
-import {
-	shallowRef,
-	watchEffect,
+import Vue,{
+	getCurrentScope,
 } from 'vue';
 
-console.log('首页')
-const count=shallowRef(0);
+window.getCurrentScope=getCurrentScope;
 
-function start(){
-	console.log('start');
-	watchEffect(() => {
-		console.log(count.value);
-	});
-	setInterval(() => {
-		++count.value;
-	},500);
+let vm:Vue;
+function createVue(){
+	console.log('createVue',vm);
+	if(!vm){
+		vm=new Vue({
+			render(h){
+				return h('div');
+			}
+		}).$mount();
+	}
 }
 </script>
 
